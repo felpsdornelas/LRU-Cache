@@ -1,49 +1,28 @@
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedHashMap; // Importa LinkedHashMap
+import java.util.Map; // Importa a interface Map
 
-// Classe genérica que implementa um cache LRU (Least Recently Used)
-// K = tipo da chave (Key)
-// V = tipo do valor (Value)
+// Classe genérica de cache LRU (Least Recently Used)
 public class LruCache<K, V> extends LinkedHashMap<K, V> {
 
-    // Quantidade máxima de elementos que o cache pode armazenar
-    private final int capacidade;
+    private final int capacidade; // Capacidade máxima do cache
 
-    // Construtor da classe
+    // Construtor que recebe a capacidade máxima
     public LruCache(int capacidade) {
 
-        /*
-         * Chama o construtor da classe LinkedHashMap
-         *
-         * capacidade -> capacidade inicial do mapa
-         * 0.75f -> fator de carga (load factor)
-         * true -> accessOrder
-         *
-         * Quando accessOrder = true, os elementos são organizados
-         * pela ordem de acesso. Sempre que um get() é realizado,
-         * o elemento acessado é movido para o final da lista.
-         *
-         * Isso permite implementar a política LRU.
-         */
+        // Chama o construtor do LinkedHashMap
+        // capacidade = tamanho inicial
+        // 0.75f = fator de carga
+        // true = ordenação por acesso (accessOrder)
         super(capacidade, 0.75f, true);
 
-        // Armazena a capacidade máxima do cache
-        this.capacidade = capacidade;
+        this.capacidade = capacidade; // Armazena a capacidade máxima
     }
 
-    /*
-     * Método chamado automaticamente após cada inserção (put).
-     *
-     * eldest representa o elemento mais antigo da estrutura.
-     *
-     * Se retornar true, o elemento mais antigo será removido.
-     * Se retornar false, nenhum elemento será removido.
-     */
-    @Override
+    @Override // Sobrescreve método do LinkedHashMap
     protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
 
-        // Quando o tamanho ultrapassar a capacidade definida,
-        // remove automaticamente o elemento menos recentemente utilizado.
+        // Remove automaticamente o elemento mais antigo
+        // quando o tamanho ultrapassar a capacidade definida
         return size() > capacidade;
     }
 }
